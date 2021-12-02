@@ -21,16 +21,16 @@ public class BuilderMaster {
         String nomeClasse = String.valueOf(classe.getSimpleName()) + "Builder";
         StringBuilder builder = new StringBuilder();
         builder.append("public class ").append(nomeClasse).append(" {\n");
-        builder.append("\tprivate ").append(classe.getSimpleName()).append(" elemento;\n");
+        builder.append("\tprivate ").append(classe.getSimpleName()).append(" element;\n");
         builder.append("\tprivate ").append(nomeClasse).append("(){}\n\n");
-        builder.append("\tpublic static ").append(nomeClasse).append(" create").append(classe.getSimpleName()).append("() {\n");
+        builder.append("\tpublic static ").append(nomeClasse).append(" Builder").append(classe.getSimpleName()).append("() {\n");
         builder.append("\t\t").append(nomeClasse).append(" builder = new ").append(nomeClasse).append("();\n");
-        builder.append("\t\tinicializarDadosPadroes(builder);\n");
+        builder.append("\t\tinitObject(builder);\n");
         builder.append("\t\treturn builder;\n");
         builder.append("\t}\n\n");
-        builder.append("\tpublic static void inicializarDadosPadroes(").append(nomeClasse).append(" builder) {\n");
-        builder.append("\t\tbuilder.elemento = new ").append(classe.getSimpleName()).append("();\n");
-        builder.append("\t\t").append(classe.getSimpleName()).append(" elemento = builder.elemento;\n");
+        builder.append("\tpublic static void initObject(").append(nomeClasse).append(" builder) {\n");
+        builder.append("\t\tbuilder.element = new ").append(classe.getSimpleName()).append("();\n");
+        builder.append("\t\t").append(classe.getSimpleName()).append(" element = builder.element;\n");
         builder.append("\n\t\t\n");
         List<Field> declaredFields = getClassFields(classe);
         for (Field campo : declaredFields) {
@@ -38,7 +38,7 @@ public class BuilderMaster {
                 continue;
             if (Modifier.isStatic(campo.getModifiers()))
                 continue;
-            builder.append("\t\telemento.set").append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1)).append("(").append(getDefaultParameter(campo)).append(");\n");
+            builder.append("\t\telement.set").append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1)).append("(").append(getDefaultParameter(campo)).append(");\n");
         }
         builder.append("\t}\n\n");
         for (Field campo : declaredFields) {
@@ -52,7 +52,7 @@ public class BuilderMaster {
                         .append(nomeClasse)
                         .append(" comLista").append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1))
                         .append("(").append(((Class)stringListType.getActualTypeArguments()[0]).getSimpleName()).append("... params) {\n");
-                builder.append("\t\telemento.set").append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1)).append("(Arrays.asList(params));\n");
+                builder.append("\t\telement.set").append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1)).append("(Arrays.asList(params));\n");
                 builder.append("\t\treturn this;\n");
                 builder.append("\t}\n\n");
                 continue;
@@ -63,7 +63,7 @@ public class BuilderMaster {
                     .append(" ").append(campo.getName())//.substring(0, 1).toUpperCase()).append(campo.getName().substring(1))
                     .append("(").append(campo.getType().getSimpleName()).append(" param) {\n");
             registrarImports(campo.getType().getCanonicalName());
-            builder.append("\t\telemento.set")
+            builder.append("\t\telement.set")
                     .append(campo.getName().substring(0, 1).toUpperCase()).append(campo.getName().substring(1))
                     .append("(param);\n");
             builder.append("\t\treturn this;\n");
@@ -71,7 +71,7 @@ public class BuilderMaster {
         }
         builder.append("\tpublic ").append(classe.getSimpleName()).append(" build() {\n");
         //builder.append("\tpublic ").append(classe.getSimpleName()).append(" agora() {\n");
-        builder.append("\t\treturn elemento;\n");
+        builder.append("\t\treturn element;\n");
         builder.append("\t}\n");
         builder.append("}");
         for (String str : this.listaImports)
