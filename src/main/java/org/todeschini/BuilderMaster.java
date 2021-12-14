@@ -23,7 +23,7 @@ public class BuilderMaster {
         builder.append("public class ").append(nomeClasse).append(" {\n");
         builder.append("\tprivate ").append(classe.getSimpleName()).append(" element;\n");
         builder.append("\tprivate ").append(nomeClasse).append("(){}\n\n");
-        builder.append("\tpublic static ").append(nomeClasse).append(" Builder").append(classe.getSimpleName()).append("() {\n");
+        builder.append("\tpublic static ").append(nomeClasse).append(" builder").append(classe.getSimpleName()).append("() {\n");
         builder.append("\t\t").append(nomeClasse).append(" builder = new ").append(nomeClasse).append("();\n");
         builder.append("\t\tinitObject(builder);\n");
         builder.append("\t\treturn builder;\n");
